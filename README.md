@@ -1,1 +1,1 @@
-# Calculator
+I would like to learn Spring deeper, host the web service on AWS and create an Android app for it. Also, it would be great to learn GitHub Actions and Jenkins. And, of course, I would like to consolidate my knowledge.
