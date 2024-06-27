@@ -27,7 +27,7 @@ public enum Constant {
     ID_PROMPT("Please provide ID: "),
     TYPE_PROMPT("Please provide type: "),
     NO_APPS("No apps found."),
-    RELEASE_DATE_PROMPT("Please provide release date: "),
+    RELEASE_DATE_PROMPT("Please provide release date (yyyy-MM-dd): "),
     NOT_FOUND("App not found"),
     DUPLICATE("Name is not unique"),
     INTERRUPTED("Sorry, the app was interrupted"),
