@@ -1,4 +1,5 @@
 FROM maven
 
 COPY . .
-ENTRYPOINT ["mvn", "spring-boot:run", "-X"]
+RUN ["mvn", "clean", "package", "spring-boot:repackage"]
+ENTRYPOINT ["java", "-jar", "target/hw.jar"]
