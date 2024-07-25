@@ -1,18 +1,17 @@
 package org.hillel.homework.controller.api;
 
-import org.hillel.homework.OrderApiApplication;
-import org.hillel.homework.model.dto.OrderDTO;
-import org.hillel.homework.model.dto.ProductDTO;
-import org.hillel.homework.model.entity.OrderEntity;
+import org.hillel.homework.dto.response.OrderResponse;
+import org.hillel.homework.dto.request.OrderItemRequest;
+import org.hillel.homework.dto.request.OrderRequest;
+import org.hillel.homework.entity.Order;
 import org.hillel.homework.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.NoSuchElementException;
-
 @RestController
 @RequestMapping("/api/orders")
 public class OrderApiController {
+
     private final OrderService orderService;
 
     public OrderApiController(OrderService orderService) {
@@ -20,58 +19,38 @@ public class OrderApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderEntity> get(@PathVariable int id) {
-        try {
-            OrderEntity order = orderService.getOrderById(id);
-            return ResponseEntity.ok(order);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<OrderResponse> get(@PathVariable long id) {
+        OrderResponse order = orderService.getOrder(id);
+        return ResponseEntity.ok(order);
     }
 
     @PostMapping
-    public ResponseEntity<OrderEntity> add(@RequestBody OrderDTO order) {
-        OrderEntity createdOrder = orderService.add(order);
+    public ResponseEntity<OrderResponse> add(@RequestBody OrderRequest order) {
+        OrderResponse createdOrder = orderService.save(order);
         return ResponseEntity.ok(createdOrder);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderEntity> update(@PathVariable int id, @RequestBody OrderDTO order) {
-        try {
-            OrderEntity updatedOrder = orderService.update(id, order);
-            return ResponseEntity.ok(updatedOrder);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<OrderResponse> update(@PathVariable long id, @RequestBody OrderRequest order) {
+        OrderResponse updatedOrder = orderService.update(id, order);
+        return ResponseEntity.ok(updatedOrder);
     }
 
     @PatchMapping("/{id}/products")
-    public ResponseEntity<OrderEntity> addProduct(@PathVariable int id, @RequestBody ProductDTO product) {
-        try {
-            OrderEntity updatedOrder = orderService.addProduct(id, product);
-            return ResponseEntity.ok(updatedOrder);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<OrderResponse> addProduct(@PathVariable long id, @RequestBody OrderItemRequest orderItemRequest) {
+        OrderResponse updatedOrder = orderService.addItem(id, orderItemRequest);
+        return ResponseEntity.ok(updatedOrder);
     }
 
-    @DeleteMapping("/products/{id}")
-    public ResponseEntity<OrderEntity> removeProduct(@PathVariable int id) {
-        try {
-            OrderEntity updatedOrder = orderService.removeProduct(id);
-            return ResponseEntity.ok(updatedOrder);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("{orderId}/products/{productId}")
+    public ResponseEntity<OrderResponse> removeProduct(@PathVariable long orderId, @PathVariable long productId) {
+        OrderResponse updatedOrder = orderService.removeItem(orderId, productId);
+        return ResponseEntity.ok(updatedOrder);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<OrderEntity> delete(@PathVariable int id) {
-        try {
-            OrderEntity updatedOrder = orderService.remove(id);
-            return ResponseEntity.ok(updatedOrder);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Order> delete(@PathVariable long id) {
+        orderService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,4 +1,4 @@
-package org.hillel.homework.model.entity;
+package org.hillel.homework.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,8 +10,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderEntity implements Entity {
-    private int id;
+@Builder
+public class OrderRequest {
     private String customerName;
-    private List<ProductEntity> products;
+    private List<OrderItemRequest> orderItems;
 }

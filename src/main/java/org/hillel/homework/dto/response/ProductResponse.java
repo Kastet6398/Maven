@@ -1,15 +1,19 @@
-package org.hillel.homework.model.entity;
+package org.hillel.homework.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
+
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductEntity implements Entity {
-    private int id;
+public class ProductResponse {
+    private Long id;
     private String name;
-    private double price;
+    private BigDecimal price;
 }
