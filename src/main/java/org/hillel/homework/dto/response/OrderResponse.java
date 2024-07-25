@@ -1,4 +1,4 @@
-package org.hillel.homework.model.dto;
+package org.hillel.homework.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDTO implements DTO {
+@Builder
+public class OrderResponse {
+    private Long id;
     private String customerName;
-    private List<ProductDTO> products;
+    private List<OrderItemResponse> orderItems;
 }
