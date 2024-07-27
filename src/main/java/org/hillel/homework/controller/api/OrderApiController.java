@@ -1,5 +1,6 @@
 package org.hillel.homework.controller.api;
 
+import lombok.AllArgsConstructor;
 import org.hillel.homework.dto.response.OrderResponse;
 import org.hillel.homework.dto.request.OrderItemRequest;
 import org.hillel.homework.dto.request.OrderRequest;
@@ -8,17 +9,13 @@ import org.hillel.homework.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@AllArgsConstructor
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("api/orders")
 public class OrderApiController {
+    private OrderService orderService;
 
-    private final OrderService orderService;
-
-    public OrderApiController(OrderService orderService) {
-        this.orderService = orderService;
-    }
-
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<OrderResponse> get(@PathVariable long id) {
         OrderResponse order = orderService.getOrder(id);
         return ResponseEntity.ok(order);
@@ -30,13 +27,13 @@ public class OrderApiController {
         return ResponseEntity.ok(createdOrder);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<OrderResponse> update(@PathVariable long id, @RequestBody OrderRequest order) {
-        OrderResponse updatedOrder = orderService.update(id, order);
+        OrderResponse updatedOrder = orderService.save(id, order);
         return ResponseEntity.ok(updatedOrder);
     }
 
-    @PatchMapping("/{id}/products")
+    @PatchMapping("{id}/products")
     public ResponseEntity<OrderResponse> addProduct(@PathVariable long id, @RequestBody OrderItemRequest orderItemRequest) {
         OrderResponse updatedOrder = orderService.addItem(id, orderItemRequest);
         return ResponseEntity.ok(updatedOrder);

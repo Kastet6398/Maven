@@ -9,17 +9,14 @@ import org.hillel.homework.mapper.ProductMapper;
 import org.hillel.homework.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class ProductService {
     private ProductRepository productRepository;
     private ProductMapper productMapper;
 
-    public List<ProductResponse> getAll() {
-
-        return productRepository.findAll().stream().map(productMapper::entityToResponse).toList();
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product #" + id + " not found"));
     }
 
     public ProductResponse save(ProductRequest productRequest) {
@@ -28,10 +25,10 @@ public class ProductService {
         return productMapper.entityToResponse(productEntity);
     }
 
-    public ProductResponse update(Long productId, ProductRequest productRequest) {
-        productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+    public ProductResponse update(Long id, ProductRequest productRequest) {
+        getById(id);
         Product productEntity = productMapper.requestToEntity(productRequest);
-        productEntity.setId(productId);
+        productEntity.setId(id);
         return productMapper.entityToResponse(productRepository.save(productEntity));
     }
 
@@ -40,6 +37,6 @@ public class ProductService {
     }
 
     public ProductResponse getById(Long id) {
-        return productRepository.findById(id).map(productMapper::entityToResponse).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        return productMapper.entityToResponse(getProductById(id));
     }
 }
