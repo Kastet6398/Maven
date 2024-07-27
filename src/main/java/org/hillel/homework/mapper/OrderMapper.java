@@ -6,9 +6,6 @@ import org.hillel.homework.dto.request.OrderRequest;
 import org.hillel.homework.entity.Order;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-
 @Component
 @AllArgsConstructor
 public class OrderMapper implements Mapper<OrderRequest, OrderResponse, Order> {

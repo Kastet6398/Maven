@@ -25,5 +25,5 @@ public class Order {
     private LocalDate orderDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItems;
 }
