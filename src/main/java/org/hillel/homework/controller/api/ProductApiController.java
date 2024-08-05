@@ -16,7 +16,7 @@ public class ProductApiController {
 
     @GetMapping("{id}")
     public ResponseEntity<ProductResponse> get(@PathVariable long id) {
-        ProductResponse product = productService.getById(id);
+        ProductResponse product = productService.getProduct(id);
         return ResponseEntity.ok(product);
     }
 
@@ -28,7 +28,7 @@ public class ProductApiController {
 
     @PutMapping("{id}")
     public ResponseEntity<ProductResponse> update(@PathVariable long id, @RequestBody ProductRequest product) {
-        ProductResponse updatedProduct = productService.update(id, product);
+        ProductResponse updatedProduct = productService.save(id, product);
         return ResponseEntity.ok(updatedProduct);
     }
 

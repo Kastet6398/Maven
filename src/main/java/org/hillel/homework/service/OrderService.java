@@ -54,10 +54,11 @@ public class OrderService {
         orderEntity.setOrderDate(LocalDate.now());
 
         orderEntity = orderRepository.save(orderEntity);
+        List<OrderItem> savedOrderItems = new ArrayList<>();
         for (OrderItem orderItem : orderItems) {
-            orderItemRepository.save(orderItem);
+            savedOrderItems.add(orderItemRepository.save(orderItem));
         }
-        orderEntity.setOrderItems(orderItems);
+        orderEntity.setOrderItems(savedOrderItems);
         return orderMapper.entityToResponse(orderEntity);
     }
 
@@ -67,16 +68,15 @@ public class OrderService {
 
     public OrderResponse addItem(Long id, OrderItemRequest orderItemRequest) {
         Order order = getOrderById(id);
+        productService.getProductById(orderItemRequest.getProductId());
         OrderItem orderItemEntity = orderItemMapper.requestToEntity(orderItemRequest);
         orderItemEntity.setOrder(order);
-        orderItemRepository.save(orderItemEntity);
-        order.getOrderItems().add(
-                OrderItem.builder()
-                        .product(productService.getProductById(orderItemRequest.getProductId()))
-                        .quantity(orderItemRequest.getQuantity())
-                        .build()
-        );
-        return orderMapper.entityToResponse(orderRepository.save(order));
+        orderItemEntity = orderItemRepository.save(orderItemEntity);
+
+        List<OrderItem> orderItems = order.getOrderItems();
+        orderItems.add(orderItemEntity);
+        order.setOrderItems(orderItems);
+        return orderMapper.entityToResponse(order);
     }
 
     public OrderResponse removeItem(Long orderId, Long productId) {
@@ -98,6 +98,7 @@ public class OrderService {
     }
 
     public void delete(long id) {
+        getOrderById(1L);
         orderRepository.deleteById(id);
     }
 }
