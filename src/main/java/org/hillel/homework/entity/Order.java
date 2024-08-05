@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,5 +24,5 @@ public class Order {
     private LocalDate orderDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItems;
 }
