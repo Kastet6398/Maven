@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.Collections;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -50,9 +51,9 @@ public class OrderMapperTest {
 
         Order entity = orderMapper.requestToEntity(request);
 
-        assertEquals("John Doe", entity.getCustomerName());
-        assertEquals(1, entity.getOrderItems().size());
-        assertEquals(orderItem, entity.getOrderItems().get(0));
+        assertThat(entity.getCustomerName()).isEqualTo("John Doe");
+        assertThat(entity.getOrderItems().size()).isEqualTo(1);
+        assertThat(entity.getOrderItems().get(0)).isEqualTo(orderItem);
     }
 
     @Test
@@ -83,10 +84,10 @@ public class OrderMapperTest {
 
         OrderResponse response = orderMapper.entityToResponse(entity);
 
-        assertEquals(1L, response.getId());
-        assertEquals("John Doe", response.getCustomerName());
-        assertEquals(1, response.getOrderItems().size());
-        assertEquals(orderItemResponse, response.getOrderItems().get(0));
+        assertThat(response.getId()).isEqualTo(1L);
+        assertThat(response.getCustomerName()).isEqualTo("John Doe");
+        assertThat(response.getOrderItems().size()).isEqualTo(1);
+        assertThat(response.getOrderItems().get(0)).isEqualTo(orderItemResponse);
     }
 
     @Test

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductMapperTest {
@@ -28,8 +29,8 @@ public class ProductMapperTest {
 
         Product entity = productMapper.requestToEntity(request);
 
-        assertEquals("Product 1", entity.getName());
-        assertEquals(new BigDecimal("10.00"), entity.getPrice());
+        assertThat(entity.getName()).isEqualTo("Product 1");
+        assertThat(entity.getPrice()).isEqualTo(new BigDecimal("10.00"));
     }
 
     @Test
@@ -47,9 +48,9 @@ public class ProductMapperTest {
 
         ProductResponse response = productMapper.entityToResponse(entity);
 
-        assertEquals(1L, response.getId());
-        assertEquals("Product 1", response.getName());
-        assertEquals(new BigDecimal("10.00"), response.getPrice());
+        assertThat(response.getId()).isEqualTo(1L);
+        assertThat(response.getName()).isEqualTo("Product 1");
+        assertThat(response.getPrice()).isEqualTo(new BigDecimal("10.00"));
     }
 
     @Test

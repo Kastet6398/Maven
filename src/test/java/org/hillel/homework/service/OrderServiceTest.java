@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -57,7 +58,7 @@ public class OrderServiceTest {
         Order actual = orderService.getOrderById(1L);
         verify(orderRepository).findById(1L);
         assertNotNull(actual);
-        assertEquals(actual, order);
+        assertThat(order).isEqualTo(actual);
     }
 
     @Test
@@ -72,7 +73,7 @@ public class OrderServiceTest {
         when(productService.getProductById(1L)).thenReturn(product);
         when(orderRepository.save(any())).thenReturn(order);
         when(orderItemRepository.save(any())).thenReturn(orderItem);
-        assertEquals(orderResponse, orderService.save(1L, orderRequest));
+        assertThat(orderService.save(1L, orderRequest)).isEqualTo(orderResponse);
         verify(orderService).getOrderById(1L);
         verify(productService).getProductById(1L);
         verify(orderItemRepository).save(any());
@@ -103,7 +104,7 @@ public class OrderServiceTest {
         when(productService.getProductById(1L)).thenReturn(product);
         when(orderRepository.save(any())).thenReturn(order);
         when(orderItemRepository.save(any())).thenReturn(orderItem);
-        assertEquals(orderResponse, orderService.save(orderRequest));
+        assertThat(orderService.save(orderRequest)).isEqualTo(orderResponse);
         verify(productService).getProductById(1L);
         verify(orderItemRepository).save(any());
         verify(orderRepository).save(any());
@@ -124,7 +125,7 @@ public class OrderServiceTest {
         doReturn(order).when(orderService).getOrderById(1L);
         when(orderRepository.save(order)).thenReturn(order);
         when(orderItemRepository.save(any())).thenReturn(orderItem);
-        assertEquals(orderResponse, orderService.addItem(1L, orderItemRequest));
+        assertThat(orderService.addItem(1L, orderItemRequest)).isEqualTo(orderResponse);
         order.setOrderItems(new ArrayList<>(List.of(orderItem)));
         verify(orderItemRepository).save(any());
     }
@@ -178,7 +179,7 @@ public class OrderServiceTest {
     @Test
     public void getOrder_validId_orderResponseReturned() {
         doReturn(order).when(orderService).getOrderById(1L);
-        assertEquals(orderResponse, orderService.getOrder(1L));
+        assertThat(orderService.getOrder(1L)).isEqualTo(orderResponse);
         verify(orderService).getOrderById(1L);
     }
 

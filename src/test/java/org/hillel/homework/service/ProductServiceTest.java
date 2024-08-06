@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -33,7 +34,7 @@ public class ProductServiceTest {
     @Test
     public void getProductById_validId_productReturned() {
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
-        assertEquals(productService.getProductById(1L), product);
+        assertThat(product).isEqualTo(productService.getProductById(1L));
         verify(productRepository).findById(1L);
     }
 
@@ -46,7 +47,7 @@ public class ProductServiceTest {
     @Test
     public void saveWithoutId_validObject_saved() {
         when(productRepository.save(new Product(null, product.getName(), product.getPrice(), product.getOrderItems()))).thenReturn(product);
-        assertEquals(productResponse, productService.save(productRequest));
+        assertThat(productService.save(productRequest)).isEqualTo(productResponse);
         verify(productRepository).save(product);
     }
 
@@ -62,7 +63,7 @@ public class ProductServiceTest {
     public void saveWithId_validProductId_productUpdated() {
         doReturn(product).when(productService).getProductById(1L);
         when(productRepository.save(product)).thenReturn(product);
-        assertEquals(productResponse, productService.save(1L, productRequest));
+        assertThat(productService.save(1L, productRequest)).isEqualTo(productResponse);
         verify(productService).getProductById(1L);
         verify(productRepository).save(product);
     }
@@ -70,7 +71,7 @@ public class ProductServiceTest {
     @Test
     public void getProduct_validId_productResponseReturned() {
         doReturn(product).when(productService).getProductById(1L);
-        assertEquals(productResponse, productService.getProduct(1L));
+        assertThat(productService.getProduct(1L)).isEqualTo(productResponse);
         verify(productService).getProductById(1L);
     }
 
