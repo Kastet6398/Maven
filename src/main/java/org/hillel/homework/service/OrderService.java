@@ -98,7 +98,7 @@ public class OrderService {
     }
 
     public void delete(long id) {
-        getOrderById(1L);
+        getOrderById(id);
         orderRepository.deleteById(id);
     }
 }
