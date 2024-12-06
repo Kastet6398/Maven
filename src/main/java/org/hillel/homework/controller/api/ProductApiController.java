@@ -33,7 +33,7 @@ public class ProductApiController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Product> delete(@PathVariable long id) {
+    public ResponseEntity<?> delete(@PathVariable long id) {
         productService.delete(id);
         return ResponseEntity.ok().build();
     }
